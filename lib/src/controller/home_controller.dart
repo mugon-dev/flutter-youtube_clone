@@ -7,7 +7,7 @@ import 'package:youtube_clone/src/respository/youtube_repository.dart';
 class HomeController extends GetxController {
   static HomeController get to => Get.find();
 
-  Rx<YoutubeVideoResult> youtubeResult = YoutubeVideoResult().obs;
+  Rx<YoutubeVideoResult> youtubeResult = YoutubeVideoResult(items: []).obs;
 
   ScrollController scrollController = ScrollController();
 
@@ -27,19 +27,23 @@ class HomeController extends GetxController {
       // print(scrollController.position.maxScrollExtent);
       // 스크롤이 마지막에 도착하면
       if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        print("reload");
+              scrollController.position.maxScrollExtent &&
+          youtubeResult.value.nextPagetoken != "") {
+        _videoLoad();
       }
     });
   }
 
   void _videoLoad() async {
-    YoutubeVideoResult? youtubeVideoResult =
-        await YoutubeRepository.to.loadVideos();
+    YoutubeVideoResult? youtubeVideoResult = await YoutubeRepository.to
+        .loadVideos(youtubeResult.value.nextPagetoken ?? "");
     if (youtubeVideoResult != null &&
         youtubeVideoResult.items != null &&
         youtubeVideoResult.items!.length > 0) {
-      youtubeResult(youtubeVideoResult);
+      youtubeResult.update((val) {
+        val!.nextPagetoken = youtubeVideoResult.nextPagetoken;
+        val.items!.addAll(youtubeVideoResult.items ?? []);
+      });
     }
   }
 }
