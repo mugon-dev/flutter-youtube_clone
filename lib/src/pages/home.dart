@@ -30,7 +30,8 @@ class Home extends StatelessWidget {
                           video: controller.youtubeResult.value.items?[index]),
                       onTap: () {
                         //page route
-                        Get.toNamed("/detail/239587");
+                        Get.toNamed(
+                            "/detail/${controller.youtubeResult.value.items![index].id!.videoId}");
                       },
                     ),
                   );

@@ -39,6 +39,7 @@ class _VideoWidgetState extends State<VideoWidget> {
     return Container(
       padding: const EdgeInsets.only(left: 10, bottom: 20),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Obx(
             () => CircleAvatar(
