@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:youtube_clone/controller/app_controller.dart';
+
+import 'controller/app_controller.dart';
 
 // root route '/'
 // 이 위젯에서 사용되는 컨트롤러 등록 statelesswidget -> getview
