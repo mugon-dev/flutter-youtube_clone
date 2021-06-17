@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -109,13 +110,25 @@ class _VideoWidgetState extends State<VideoWidget> {
   }
 
   Widget _thumbnail() {
-    return Container(
-      height: 250,
-      color: Colors.grey.withOpacity(0.5),
-      child: Image.network(
-        widget.video!.snippet!.thumbnails!.medium!.url!,
-        fit: BoxFit.fitWidth,
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          color: Colors.grey.withOpacity(0.5),
+          child: CachedNetworkImage(
+            imageUrl: widget.video!.snippet!.thumbnails!.medium!.url.toString(),
+            placeholder: (context, url) => Container(
+              height: 230,
+              child: Center(child: CircularProgressIndicator()),
+            ),
+            fit: BoxFit.fitWidth,
+          ),
+          // child: Image.network(
+          //   widget.video!.snippet!.thumbnails!.medium!.url!,
+          //   fit: BoxFit.fitWidth,
+          // ),
+        ),
+      ],
     );
   }
 }
