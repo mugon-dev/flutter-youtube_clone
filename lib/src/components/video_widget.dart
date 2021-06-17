@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:youtube_clone/src/models/video.dart';
 
 class VideoWidget extends StatelessWidget {
-  const VideoWidget({Key? key}) : super(key: key);
+  final Video? video;
+  const VideoWidget({Key? key, this.video}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,7 @@ class VideoWidget extends StatelessWidget {
                     // 여러 줄 처리 expanded로 감싸고 maxline
                     Expanded(
                       child: Text(
-                        "개남 유튜브 다시보기",
+                        video!.snippet!.title!.toString(),
                         maxLines: 2,
                       ),
                     ),
@@ -53,7 +56,7 @@ class VideoWidget extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      "개발하는 남자",
+                      video!.snippet!.channelTitle!.toString(),
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.black.withOpacity(0.8),
@@ -69,7 +72,8 @@ class VideoWidget extends StatelessWidget {
                     ),
                     Text(" · "),
                     Text(
-                      "2021-02-13",
+                      DateFormat('yyyy-MM-dd')
+                          .format(video!.snippet!.publishedAt!),
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.black.withOpacity(0.6),
@@ -89,6 +93,10 @@ class VideoWidget extends StatelessWidget {
     return Container(
       height: 250,
       color: Colors.grey.withOpacity(0.5),
+      child: Image.network(
+        video!.snippet!.thumbnails!.medium!.url!,
+        fit: BoxFit.fitWidth,
+      ),
     );
   }
 }
