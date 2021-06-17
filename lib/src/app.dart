@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:youtube_clone/src/pages/explore.dart';
+import 'package:youtube_clone/src/pages/home.dart';
+import 'package:youtube_clone/src/pages/library.dart';
+import 'package:youtube_clone/src/pages/subscribe.dart';
 
 import 'controller/app_controller.dart';
 
@@ -12,7 +16,32 @@ class App extends GetView<AppController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      // currentIndex에 따라 페이지 전환
+      body: Obx(() {
+        switch (RouteName.values[controller.currentIndex.value]) {
+          case RouteName.Home:
+            return Home();
+            break;
+          case RouteName.Explore:
+            return Explore();
+            break;
+          case RouteName.Add:
+            //bottomsheet
+            break;
+          case RouteName.Subs:
+            return Subscribe();
+            break;
+          case RouteName.Library:
+            return Library();
+            break;
+        }
+        return Container();
+        // if (controller.currentIndex.value == 0) {
+        //   return Home();
+        // } else {
+        //   return Explore();
+        // }
+      }),
       // controller에서 state를 가져오기 위해 Obx로 감싸줌
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
