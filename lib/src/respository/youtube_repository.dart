@@ -22,7 +22,20 @@ class YoutubeRepository extends GetConnect {
       if (response.body['items'] != null && response.body['items'].length > 0) {
         return YoutubeVideoResult.fromJson(response.body);
       }
-      print(response.body['items']);
+    }
+  }
+
+  Future<YoutubeVideoResult?> search(
+      String searchKeyword, String nextPageToken) async {
+    String url =
+        '/youtube/v3/search?part=snippet&maxResults=10&order=date&type=video&videoDefinition=high&key=AIzaSyDagbzNCisB2k0xKHgmTw5WehY_2SNq9Jk&pageToken=$nextPageToken&q=$searchKeyword';
+    final response = await get(url);
+    if (response.status.hasError) {
+      return Future.error(response.statusText.toString());
+    } else {
+      if (response.body['items'] != null && response.body['items'].length > 0) {
+        return YoutubeVideoResult.fromJson(response.body);
+      }
     }
   }
 
@@ -37,7 +50,6 @@ class YoutubeRepository extends GetConnect {
         Map<String, dynamic> data = response.body['items'][0];
         return Statistics.fromJson(data['statistics']);
       }
-      print(response.body['items']);
     }
   }
 
@@ -52,7 +64,6 @@ class YoutubeRepository extends GetConnect {
         Map<String, dynamic> data = response.body['items'][0];
         return Youtuber.fromJson(data);
       }
-      print(response.body['items']);
     }
   }
 }
