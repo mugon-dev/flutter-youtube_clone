@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:youtube_clone/src/components/custom_appbar.dart';
+import 'package:youtube_clone/src/components/video_widget.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -20,9 +22,12 @@ class Home extends StatelessWidget {
               (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 150,
-                    color: Colors.grey,
+                  child: GestureDetector(
+                    child: VideoWidget(),
+                    onTap: () {
+                      //page route
+                      Get.toNamed("/detail/239587");
+                    },
                   ),
                 );
               },
