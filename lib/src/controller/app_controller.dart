@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:youtube_clone/src/components/youtube_bottom_sheet.dart';
 
 // 페이지 이동용 페이지 명 정의
 enum RouteName { Home, Explore, Add, Subs, Library }
@@ -12,6 +13,15 @@ class AppController extends GetxService {
   RxInt currentIndex = 0.obs;
 
   void changePageIndex(int index) {
-    currentIndex(index);
+    // bottom sheet
+    if (RouteName.values[index] == RouteName.Add) {
+      _showBottomSheet();
+    } else {
+      currentIndex(index);
+    }
+  }
+
+  void _showBottomSheet() {
+    Get.bottomSheet(YoutubeBottomSheet());
   }
 }

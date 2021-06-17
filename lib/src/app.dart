@@ -25,14 +25,14 @@ class App extends GetView<AppController> {
           case RouteName.Explore:
             return Explore();
             break;
-          case RouteName.Add:
-            //bottomsheet
-            break;
           case RouteName.Subs:
             return Subscribe();
             break;
           case RouteName.Library:
             return Library();
+            break;
+          case RouteName.Add:
+            //bottomsheet
             break;
         }
         return Container();
