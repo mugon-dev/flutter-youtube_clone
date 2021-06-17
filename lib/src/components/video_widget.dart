@@ -39,13 +39,14 @@ class _VideoWidgetState extends State<VideoWidget> {
       padding: const EdgeInsets.only(left: 10, bottom: 20),
       child: Row(
         children: [
-          CircleAvatar(
-            // 사이즈 조
-            radius: 30,
-            backgroundColor: Colors.grey.withOpacity(0.5),
-            backgroundImage: Image.network(
-                    "https://yt3.ggpht.com/ytc/AAUvwniU0ZOGv47lDdGSQ8H004fQgwOAJRlobuCvXwNl=s48-c-k-c0x00ffffff-no-rj")
-                .image,
+          Obx(
+            () => CircleAvatar(
+              // 사이즈 조
+              radius: 30,
+              backgroundColor: Colors.grey.withOpacity(0.5),
+              backgroundImage:
+                  Image.network(_videoController!.youtuberThumbnailUrl).image,
+            ),
           ),
           SizedBox(width: 15),
           Expanded(
