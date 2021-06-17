@@ -1,4 +1,5 @@
 //video list 불러오기
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youtube_clone/src/models/youtube_video_result.dart';
 import 'package:youtube_clone/src/respository/youtube_repository.dart';
@@ -8,11 +9,28 @@ class HomeController extends GetxController {
 
   Rx<YoutubeVideoResult> youtubeResult = YoutubeVideoResult().obs;
 
+  ScrollController scrollController = ScrollController();
+
   @override
   void onInit() {
     // TODO: implement onInit
     _videoLoad();
+    _event();
     super.onInit();
+  }
+
+  void _event() {
+    scrollController.addListener(() {
+      // 스크롤 할때 하단 픽셀 위치
+      // print(scrollController.position.pixels);
+      // 가장 하단 위치
+      // print(scrollController.position.maxScrollExtent);
+      // 스크롤이 마지막에 도착하면
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        print("reload");
+      }
+    });
   }
 
   void _videoLoad() async {
