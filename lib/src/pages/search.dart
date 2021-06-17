@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:youtube_clone/src/controller/youtube_search_controller.dart';
 
-class YoutubeSearch extends StatelessWidget {
+class YoutubeSearch extends GetView<YoutubeSearchController> {
   const YoutubeSearch({Key? key}) : super(key: key);
 
   @override
@@ -21,6 +22,9 @@ class YoutubeSearch extends StatelessWidget {
                 borderSide: BorderSide(color: Colors.transparent),
                 borderRadius: BorderRadius.circular(5),
               )),
+          onSubmitted: (value) {
+            controller.search(value);
+          },
         ),
       ),
       body: _searchHistory(),
@@ -28,23 +32,25 @@ class YoutubeSearch extends StatelessWidget {
   }
 
   Widget _searchHistory() {
-    return ListView(
-      children: List.generate(
-          10,
-          (index) => ListTile(
-                leading: SvgPicture.asset(
-                  'assets/svg/icons/wall-clock.svg',
-                  width: 20,
-                ),
-                title: Padding(
-                  padding: const EdgeInsets.only(bottom: 5.0),
-                  child: Text("$index"),
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 15,
-                ),
-              )).toList(),
+    return Obx(
+      () => ListView(
+        children: List.generate(
+            controller.history.length,
+            (index) => ListTile(
+                  leading: SvgPicture.asset(
+                    'assets/svg/icons/wall-clock.svg',
+                    width: 20,
+                  ),
+                  title: Padding(
+                    padding: const EdgeInsets.only(bottom: 5.0),
+                    child: Text(controller.history[index]),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 15,
+                  ),
+                )).toList(),
+      ),
     );
   }
 }
