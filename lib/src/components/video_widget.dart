@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:youtube_clone/src/controller/video_controller.dart';
 import 'package:youtube_clone/src/models/video.dart';
 
-class VideoWidget extends StatelessWidget {
+class VideoWidget extends StatefulWidget {
   final Video? video;
   const VideoWidget({Key? key, this.video}) : super(key: key);
+
+  @override
+  _VideoWidgetState createState() => _VideoWidgetState();
+}
+
+class _VideoWidgetState extends State<VideoWidget> {
+  VideoController? _videoController;
+  @override
+  void initState() {
+    // tag 를 통해 개별적으로 controller 생성 가능
+    _videoController = Get.put(VideoController(video: widget.video),
+        tag: widget.video!.id!.videoId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +57,7 @@ class VideoWidget extends StatelessWidget {
                     // 여러 줄 처리 expanded로 감싸고 maxline
                     Expanded(
                       child: Text(
-                        video!.snippet!.title!.toString(),
+                        widget.video!.snippet!.title!.toString(),
                         maxLines: 2,
                       ),
                     ),
@@ -56,24 +72,26 @@ class VideoWidget extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      video!.snippet!.channelTitle!.toString(),
+                      widget.video!.snippet!.channelTitle!.toString(),
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.black.withOpacity(0.8),
                       ),
                     ),
                     Text(" · "),
-                    Text(
-                      "조회수 1000회",
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.black.withOpacity(0.6),
+                    Obx(
+                      () => Text(
+                        _videoController!.viewCountString,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black.withOpacity(0.6),
+                        ),
                       ),
                     ),
                     Text(" · "),
                     Text(
                       DateFormat('yyyy-MM-dd')
-                          .format(video!.snippet!.publishedAt!),
+                          .format(widget.video!.snippet!.publishedAt!),
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.black.withOpacity(0.6),
@@ -94,7 +112,7 @@ class VideoWidget extends StatelessWidget {
       height: 250,
       color: Colors.grey.withOpacity(0.5),
       child: Image.network(
-        video!.snippet!.thumbnails!.medium!.url!,
+        widget.video!.snippet!.thumbnails!.medium!.url!,
         fit: BoxFit.fitWidth,
       ),
     );
